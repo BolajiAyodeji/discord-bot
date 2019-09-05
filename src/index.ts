@@ -19,7 +19,7 @@ import { IBotCommand } from './api';
 
 const botClient: Discord.Client = new Discord.Client();
 
-let commands: IBotCommand[] =[];
+let commands: IBotCommand[] = [];
 
 loadCommands(`${__dirname}/commands`)
 
@@ -32,31 +32,47 @@ botClient.on('ready', () => {
 botClient.on('message', msg => {
 
     // ignore message sent by bot
-    if(msg.author.bot) {
+    if (msg.author.bot) {
         return;
     }
 
     // ignore messages that dosen't start with the prefix
-    if(!msg.content.startsWith(ConfigFile.config.prefix)) {
+    if (!msg.content.startsWith(ConfigFile.config.prefix)) {
         return;
     }
 
-    msg.channel.send(`
-    ${msg.author.username} just used a command
-    
-    `);
+    handleCommand(msg);
 })
+
+async function handleCommand(msg: Discord.Message) {
+    let command = msg.content.split(" ")[0].replace(ConfigFile.config.prefix, "");
+    let args = msg.content.split(" ").slice(1);
+
+    for (const commandsClass of commands) {
+        try {
+            if (!commandsClass.isThisCommand(command)) {
+                continue;
+            }
+            await commandsClass.runCommand(args, msg, botClient);
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+}
 
 function loadCommands(commandsPath: string) {
 
     //exit if no command exist
-    if(!ConfigFile.config || (ConfigFile.config.commands as string[]).length === 0 {
+    if (!ConfigFile.config || (ConfigFile.config.commands as string[]).length === 0 {
         return;
     }
 
     //loop through all commandsa            z
-    for(const commandName of ConfigFile.config.commands as string[]) {
-        const commandCLass = require(`${commandsPath}/${commandName}`).default;
+    for (const commandName of ConfigFile.config.commands as string[]) {
+        const commandsClass = require(`${commandsPath}/${commandName}`).default;
+        const command = new commandsClass as IBotCommand;
+        commands.push(command)
     }
 }
 
