@@ -4,7 +4,7 @@
   "description": "A simple Discord bot using Hashnode APIs",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.ts"
+    "start": "nodemon dist/index.js"
   },
   "repository": {
     "type": "git",
