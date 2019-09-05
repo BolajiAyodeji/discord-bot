@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/BolajiAyodeji/hashnode-discord-bot#readme",
   "dependencies": {
+    "@types/node": "^12.7.4",
     "discord.js": "^11.5.1",
     "node-fetch": "^2.6.0"
   }
