@@ -36,7 +36,7 @@ botClient.on('message', msg => {
         return;
     }
 
-    // ignore messages that dosen't start with the prefix
+    // ignore messages that doesn't start with the prefix
     if (!msg.content.startsWith(ConfigFile.config.prefix)) {
         return;
     }
@@ -68,7 +68,7 @@ function loadCommands(commandsPath: string) {
         return;
     }
 
-    //loop through all commandsa            z
+    //loop through all commands
     for (const commandName of ConfigFile.config.commands as string[]) {
         const commandsClass = require(`${commandsPath}/${commandName}`).default;
         const command = new commandsClass as IBotCommand;
