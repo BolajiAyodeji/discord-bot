@@ -1,21 +1,42 @@
 import * as Discord from 'discord.js';
 import * as ConfigFile from './config';
+import * as dotenv from 'dotenv';
 import { IBotCommand } from './api';
-// import * as fetch from 'node-fetch';
+import { GraphQLClient } from 'graphql-request'
+dotenv.config();
 
-// fetch('https://api.hashnode.com', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json', 'Authorization': '86bc79b4-ff86-4d7e-967c-67e7e680520d'},
-//     body: JSON.stringify({
-//         query: `query{
-//                   storiesFeed(type: FOR_ME, page: 1){
-//                   title
-//                   type
-//             }`
-//     }),
-// })
-//     .then(res => res.json())
-//     .then(res => console.log(JSON.stringify(res)))
+async function main() {
+    const endpoint = 'https://api.hashnode.com'
+
+    const graphQLClient = new GraphQLClient(endpoint, {
+        headers: {
+            authorization: `${process.env.HASHNODE_TOKEN}`,
+        },
+    })
+
+    const stories = `
+  query{
+    storiesFeed(type: FOR_ME, page: 1){
+      title
+      type
+    }
+  }
+  `
+
+    const discussions = `
+  query{
+        discussionsFeed(type: RECENT, page: 2) {
+          title
+        }
+  }
+  `
+
+    const data = await graphQLClient.request(stories)
+    const data2 = await graphQLClient.request(discussions)
+    console.log(JSON.stringify(data, data2))
+}
+
+main().catch(error => console.error(error))
 
 const botClient: Discord.Client = new Discord.Client();
 
