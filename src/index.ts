@@ -37,8 +37,13 @@ async function main() {
   }
   `
 
-    const data = await graphQLClient.request(stories)
-    const data2 = await graphQLClient.request(discussions)
+    interface TData {
+        storiesFeed: { _id: string, title: string, type: string, slug: string, cuid: string },
+        discussionsFeed: { _id: string, title: string, type: string, slug: string, cuid: string }
+    }
+
+    const data = await graphQLClient.request<TData>(stories)
+    const data2 = await graphQLClient.request<TData>(discussions)
     console.log(JSON.stringify(data, undefined, 2))
     console.log(JSON.stringify(data2, undefined, 2))
 }
