@@ -17,23 +17,30 @@ async function main() {
     const stories = `
   query{
     storiesFeed(type: FOR_ME, page: 1){
+      _id
       title
       type
+      slug
+      cuid
     }
   }
   `
-
     const discussions = `
   query{
-        discussionsFeed(type: RECENT, page: 2) {
-          title
-        }
+    discussionsFeed(type: RECENT, page: 1) {
+      _id
+      title
+      type
+      slug
+      cuid
+    }
   }
   `
 
     const data = await graphQLClient.request(stories)
     const data2 = await graphQLClient.request(discussions)
-    console.log(JSON.stringify(data, data2))
+    console.log(JSON.stringify(data, undefined, 2))
+    console.log(JSON.stringify(data2, undefined, 2))
 }
 
 main().catch(error => console.error(error))
