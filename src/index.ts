@@ -64,7 +64,7 @@ async function handleCommand(msg: Discord.Message) {
 function loadCommands(commandsPath: string) {
 
     //exit if no command exist
-    if (!ConfigFile.config || (ConfigFile.config.commands as string[]).length === 0 {
+    if (!ConfigFile.config || (ConfigFile.config.commands as string[]).length === 0) {
         return;
     }
 

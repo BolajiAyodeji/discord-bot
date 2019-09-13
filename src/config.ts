@@ -1,7 +1,15 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+
 export let config = {
-    "token": "NjE5MjA5MDA2OTcxMzU1MTUx.XXGZwg.VWmMkey-9xsHFtthzTa8i1QnTd0",
+    "token": `${process.env.BOT_TOKEN}`,
     "prefix": "?",
     "commands": [
         "testCommand",
+        "ama",
+        "post",
+        "profile",
+        "question"
     ]
 }
