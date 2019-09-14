@@ -42,6 +42,8 @@ async function main() {
         discussionsFeed: { _id: string, title: string, type: string, slug: string, cuid: string }
     }
 
+    
+
     const data = await graphQLClient.request<TData>(stories)
     const data2 = await graphQLClient.request<TData>(discussions)
     console.log(JSON.stringify(data, undefined, 2))
